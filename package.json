@@ -1,0 +1,31 @@
+{
+    "name": "Translatr4You",
+    "version": "0.0.0",
+    "description": "Translates Your Tweets and tweets them back at you!",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tylerl0706/Translatr4You.git"
+    },
+    "keywords": [
+    "Twitter",
+    "Translator"
+  ],
+    "author": "Isabella Moreira and Tyler Leonhardt",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tylerl0706/Translatr4You/issues"
+    },
+    "homepage": "https://github.com/tylerl0706/Translatr4You",
+    "dependencies": {
+        "express": "^4.4.3",
+        "logfmt": "^1.1.2",
+        "twitter": "^0.2.9"
+    },
+    "engines": {
+        "node": "0.10.x"
+    }
+}
