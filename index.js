@@ -3,9 +3,11 @@ var express = require("express"),
     logfmt = require("logfmt"),
     app = express();
 
+
+
 app.use(logfmt.requestLogger());
 
-app.get('/', function (req, res) {
+app.all('/', function (req, res) {
     res.send('Tyler Loves Isabella!');
 });
 
@@ -26,5 +28,8 @@ var twit = new twitter({
 twit.stream('statuses/filter', {'track':'#testingsomething123'}, function(stream) {
   stream.on('data', function (data) {
     console.log(data.user.name + "\n" + data.text);
+    app.use(function(req, res, next){
+        res.send(data.user.name + "\n" + data.text);
+    });
   });
 });
