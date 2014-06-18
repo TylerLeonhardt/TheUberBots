@@ -23,8 +23,8 @@ var twit = new twitter({
   access_token_secret: 've3flKS441AJagYJ4vIqiJyn9Fbtels8j5LHLasYPM6XD'
 });
 
-twit.stream('statuses/filter', {'track':'#testingsomething123'}, function(stream) {
-  stream.on('data', function (data) {
-    //console.log(data.user.name + "\n" + data.text);
-  });
-});
+//twit.stream('statuses/filter', {'track':'#testingsomething123'}, function(stream) {
+//  stream.on('data', function (data) {
+//    console.log(data.user.name + "\n" + data.text);
+//  });
+//});
