@@ -25,6 +25,6 @@ var twit = new twitter({
 
 twit.stream('statuses/filter', {'track':'#testingsomething123'}, function(stream) {
   stream.on('data', function (data) {
-    console.log(data.name + "\n" + data.text);
+    //console.log(data.user.name + "\n" + data.text);
   });
 });
