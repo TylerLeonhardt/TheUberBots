@@ -92,7 +92,7 @@ app.use(logfmt.requestLogger());
 
 
 app.all('/', function (req, res) {
-    res.send("Output"str);
+    res.send("Last Computation: " + str);
 });
 
 var port = Number(process.env.PORT || 5000);
