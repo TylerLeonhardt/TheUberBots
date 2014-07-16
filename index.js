@@ -1,5 +1,5 @@
-// web.js
-var express = require("express"),
+var newrelic = require('newrelic'),
+    express = require("express"),
     logfmt = require("logfmt"),
     app = express(),
     str = "1+1 ",
