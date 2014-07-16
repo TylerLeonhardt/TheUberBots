@@ -1,41 +1,47 @@
-var newrelic = require('newrelic'),     //for pinging
-    //express = require("express"),       //to display on website
-    //logfmt = require("logfmt"),         //logger
-    Client = require('node-wolfram'),   //Wolfram
-    twitter = require('twit'),          //Twitter
-    //app = express(),                //new express
-    str = "",
-    Wolfram = new Client('4QQH9G-K8A2R2WAL3');
+var newrelic = require('newrelic');  //require for pinging
+var twit = require('twit');          //Twitter require
 
-var twit = new twitter({
+//Twitter Access
+var twitter = new twit({
     consumer_key: 'Df9w73YbAhP3NFz1dVYDWIig9',
     consumer_secret: 'kjU5dWLkxhwNw6AtHP2gNHuPus67mCuOaI1j8SFmZVFm0hMWox',
     access_token: '2571622638-J4LLmwJMScRzaU8ztUakG92ZPS49i6FTqXgGQMJ',
     access_token_secret: 'KjOyamQSfW75fygc89EGrU1JBiZYqIuhplCOxy3Zu8vQ4'
 });
 
-var stream = twit.stream('statuses/filter', {
+/****************************************************/
+/*                     WOLFRAM                      */
+/****************************************************/
+
+var wr = require('node-wolfram');   //Wolfram require
+var wolfram = new wr('4QQH9G-K8A2R2WAL3');  //Wolfram Access
+
+var wolframStr = ""; //String to be tweeted
+
+//Twitter Steam for Wolfram
+var wolframStream = twitter.stream('statuses/filter', {
     'track': '#UtilityBotsCompute'
 });
-stream.on('tweet', function (tweet) {
-    str = "" + tweet.text;
+//The Twitter Stream
+wolframStream.on('tweet', function (tweet) {
+    wolframStr = "" + tweet.text;
     var temp = "";
-    for (var i = 0; i < str.length; i++) {
-        if (str.charAt(i) === "#") break;
-        temp = temp + str.charAt(i);
+    for (var i = 0; i < wolframStr.length; i++) {
+        if (wolframStr.charAt(i) === "#") break;
+        temp = temp + wolframStr.charAt(i);
     }
-    str = temp;
-    console.log("before query " + str);
-    Wolfram.query(str, function (err, result) {
+    wolframStr = temp;
+    console.log("before query " + wolframStr);
+    Wolfram.query(wolframStr, function (err, result) {
         if (err)
             console.log(err);
         else {
-            console.log("before store " + str);
-            str = result.queryresult.pod[1].subpod[0].plaintext[0];
-            console.log(str);
-            str = str + " @" + tweet.user.screen_name;
+            console.log("before store " + wolframStr);
+            wolframStr = result.queryresult.pod[1].subpod[0].plaintext[0];
+            console.log(wolframStr);
+            wolframStr = wolframStr + " @" + tweet.user.screen_name;
             twit.post('statuses/update', {
-                status: str
+                status: wolframStr
             }, function (err, data, response) {
                 console.log(data);
             });
@@ -44,19 +50,6 @@ stream.on('tweet', function (tweet) {
     });
 });
 
-//twit.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
-//  console.log(data)
-//});
-
-//app.use(logfmt.requestLogger());
-
-
-
-//app.all('/', function (req, res) {
-//    res.send("Last Computation: " + str);
-//});
-
-//var port = Number(process.env.PORT || 5000);
-//app.listen(port, function () {
-//    console.log("Listening on " + port);
-//});
+/****************************************************/
+/*                                                  */
+/****************************************************/
