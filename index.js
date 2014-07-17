@@ -9,7 +9,7 @@ var app = express();
 app.use(logfmt.requestLogger());
 
 app.get('/', function(req, res) {
-  res.send('Hello World!');
+  res.send('Utility Bots are working hard!');
 });
 
 var port = Number(process.env.PORT || 5000);
@@ -41,29 +41,33 @@ var wolfram = new Client('4QQH9G-K8A2R2WAL3');  //Wolfram Access
 
 var wolframStr = ""; //String to be tweeted
 
-//Twitter Steam for Wolfram
+//Twitter Steam for Wolfram tracking #UBCompute
 var wolframStream = twitter.stream('statuses/filter', {
-    'track': '#UtilityBotsCompute'
+    'track': '#UBCompute'
 });
 //The Twitter Stream
 wolframStream.on('tweet', function (tweet) {
-    console.log("WORK PLS");
-    wolframStr = "" + tweet.text;
+    
+    wolframStr = "" + tweet.text; //text unfiltered (still contains hashtag)
+    
+    //loop that reads up until the # then stops
     var temp = "";
     for (var i = 0; i < wolframStr.length; i++) {
         if (wolframStr.charAt(i) === "#") break;
         temp = temp + wolframStr.charAt(i);
     }
-    wolframStr = temp;
-    console.log("before query " + wolframStr);
+    
+    wolframStr = temp; //stores filtered text into the str to be printed out
+
+    //Query Wolfram Alpha call
     wolfram.query(wolframStr, function (err, result) {
         if (err)
             console.log(err);
         else {
-            console.log("before store " + wolframStr);
-            wolframStr = result.queryresult.pod[1].subpod[0].plaintext[0];
-            console.log(wolframStr);
-            wolframStr = wolframStr + " @" + tweet.user.screen_name;
+
+            wolframStr = result.queryresult.pod[1].subpod[0].plaintext[0]; //stores the result in the str to be printed out
+//            console.log(wolframStr);
+            wolframStr = "@" + tweet.user.screen_name + ", Computed Result: " + wolframStr;
             twitter.post('statuses/update', {
                 status: wolframStr
             }, function (err, data, response) {
