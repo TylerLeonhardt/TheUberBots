@@ -1,21 +1,21 @@
-///****************************************************/
-///*                     DISPLAY                      */
-///****************************************************/
-//
-//var express = require("express");
-//var logfmt = require("logfmt");
-//var app = express();
-//
-//app.use(logfmt.requestLogger());
-//
-//app.get('/', function(req, res) {
-//  res.send('Hello World!');
-//});
-//
-//var port = Number(process.env.PORT || 5000);
-//app.listen(port, function() {
-//  console.log("Listening on " + port);
-//});
+/****************************************************/
+/*                     DISPLAY                      */
+/****************************************************/
+
+var express = require("express");
+var logfmt = require("logfmt");
+var app = express();
+
+app.use(logfmt.requestLogger());
+
+app.get('/', function(req, res) {
+  res.send('Hello World!');
+});
+
+var port = Number(process.env.PORT || 5000);
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
 
 /****************************************************/
 /*                     TWITTER                      */
@@ -47,6 +47,7 @@ var wolframStream = twitter.stream('statuses/filter', {
 });
 //The Twitter Stream
 wolframStream.on('tweet', function (tweet) {
+    console.log("WORK PLS");
     wolframStr = "" + tweet.text;
     var temp = "";
     for (var i = 0; i < wolframStr.length; i++) {
@@ -55,7 +56,7 @@ wolframStream.on('tweet', function (tweet) {
     }
     wolframStr = temp;
     console.log("before query " + wolframStr);
-    Wolfram.query(wolframStr, function (err, result) {
+    wolfram.query(wolframStr, function (err, result) {
         if (err)
             console.log(err);
         else {
@@ -76,22 +77,3 @@ wolframStream.on('tweet', function (tweet) {
 /****************************************************/
 /*                                                  */
 /****************************************************/
-
-/****************************************************/
-/*                     DISPLAY                      */
-/****************************************************/
-
-var express = require("express");
-var logfmt = require("logfmt");
-var app = express();
-
-app.use(logfmt.requestLogger());
-
-app.get('/', function(req, res) {
-  res.send('Hello World!');
-});
-
-var port = Number(process.env.PORT || 5000);
-app.listen(port, function() {
-  console.log("Listening on " + port);
-});
