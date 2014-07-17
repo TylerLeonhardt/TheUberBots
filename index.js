@@ -36,8 +36,8 @@ var twitter = new twit({
 /*                     WOLFRAM                      */
 /****************************************************/
 
-var wr = require('node-wolfram');   //Wolfram require
-var wolfram = new wr('4QQH9G-K8A2R2WAL3');  //Wolfram Access
+var Client = require('node-wolfram');   //Wolfram require
+var wolfram = new Client('4QQH9G-K8A2R2WAL3');  //Wolfram Access
 
 var wolframStr = ""; //String to be tweeted
 
@@ -64,7 +64,7 @@ wolframStream.on('tweet', function (tweet) {
             wolframStr = result.queryresult.pod[1].subpod[0].plaintext[0];
             console.log(wolframStr);
             wolframStr = wolframStr + " @" + tweet.user.screen_name;
-            twit.post('statuses/update', {
+            twitter.post('statuses/update', {
                 status: wolframStr
             }, function (err, data, response) {
                 console.log(data);
