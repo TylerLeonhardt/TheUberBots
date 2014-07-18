@@ -82,25 +82,31 @@ wolframStream.on('tweet', function (tweet) {
 /*                   EXCHANGE                       */
 /****************************************************/
 
-var oxr = require('open-exchange-rates'),
-    fx = require('money');
+var oxr = require('open-exchange-rates'), //Open Exchange Rates require
+    fx = require('money'); //Money.js require 
 
+//Set open exchange rate app id
 oxr.set({
     app_id: '2cf0f9d440da44708475396524c2d6da'
 });
 
 var exchangeStr = "";
 
+//set track to #UBExchange
 var exchangeStream = twitter.stream('statuses/filter', {
     'track': '#UBExchange'
 });
 
+//Twitter Stream
 exchangeStream.on('tweet', function (tweet) {
 
-    exchangeStr = "" + tweet.text;
+    exchangeStr = "" + tweet.text; //unfiltered tweet
+
+    //checks for a '$' in the beginning and ignores it
     if (exchangeStr.charAt(0) === '$')
         exchangeStr = exchangeStr.slice(1, exchangeStr.length);
 
+    //breaks up the params
     var exchangeArr = exchangeStr.split(" ");
 
 
@@ -118,7 +124,10 @@ exchangeStream.on('tweet', function (tweet) {
         fx.rates = oxr.rates;
         fx.base = oxr.base;
 
+        //if the first value is a number
         if (!isNaN(exchangeArr[0])) {
+
+            //try to use the api
             try {
                 exchangeStr = "" + fx(parseInt(exchangeArr[0])).from(exchangeArr[1]).to(exchangeArr[2]);
                 exchangeStr = "@" + tweet.user.screen_name + ", " + exchangeArr[0] + " " + exchangeArr[1] + " -> " + exchangeStr + " " +
@@ -130,10 +139,53 @@ exchangeStream.on('tweet', function (tweet) {
             exchangeStr = "@" + tweet.user.screen_name + ", Please use the format:\n [Number ex: 100] [Currency From ex: USD] [Currency To ex: GBP]";
         }
 
+        //post to twitter
         twitter.post('statuses/update', {
             status: exchangeStr
         }, function (err, data, response) {
             console.log(data);
         });
+    });
+});
+
+/****************************************************/
+/*                      TIP                         */
+/****************************************************/
+
+var tipStr = "";
+
+var tipStream = twitter.stream('statuses/filter', {
+    'track': '#UBTip'
+});
+
+tipStream.on('tweet', function (tweet) {
+
+    tipStr = "" + tweet.text;
+
+    //checks for a '$' in the beginning and ignores it
+    if (tipStr.charAt(0) === '$')
+        tipStr = tipStr.slice(1, tipStr.length);
+
+    //loop that reads up until the # then stops
+    var temp = "";
+    for (var i = 0; i < tipStr.length; i++) {
+        if (tipStr.charAt(i) === "#") break;
+        temp = temp + tipStr.charAt(i);
+    }
+
+    tipStr = temp;
+
+    if (!isNaN(tipStr)) {
+        tipStr = "@" + tweet.user.screen_name + ", On a $" + tipStr + " check:\n15% tip: $" + ((tipStr * .15).toFixed(2)) + "\n18% tip: $" +
+            ((tipStr * .18).toFixed(2)) + "\n20% tip: $" + ((tipStr * .2).toFixed(2));
+    } else {
+        tipStr = "@" + tweet.user.screen_name + ", that's not a number!";
+    }
+
+    //post to twitter
+    twitter.post('statuses/update', {
+        status: tipStr
+    }, function (err, data, response) {
+        console.log(data);
     });
 });
