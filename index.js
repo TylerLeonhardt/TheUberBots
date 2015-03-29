@@ -202,7 +202,7 @@ var golfStream = twitter.stream('statuses/filter', {
 
 golfStream.on('tweet', function (tweet) {
 
-   golfStr = "@" + tweet.user.screen_name + ", cheap games could be near you! Visit www.golfing.azurewebsites.net to find out! via @GolfNow"; 
+   golfStr = "@" + tweet.user.screen_name + ", cheap games could be near you! Visit golfing.azurewebsites.net to find out! via @GolfNow"; 
 
    //post to twitter
    twitter.post('statuses/update', {
