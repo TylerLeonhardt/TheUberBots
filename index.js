@@ -197,7 +197,7 @@ tipStream.on('tweet', function (tweet) {
 var golfStr = "";
 
 var golfStream = twitter.stream('statuses/filter', {
-   'track': '#MyTeeNow', '#IWantToGolf'
+   'track': '#IWantToGolf'
 });
 
 golfStream.on('tweet', function (tweet) {
