@@ -9,10 +9,13 @@ There are currently 3 bots in service right now:
 
 ## Math Bot
 Syntax: <Math stuff here> #UBCompute
+Uses Wolfram Alpha's API
 
 ## Tip Bot
 Syntax: <Money amount as a decimal> #UBTip
+Calculates 15%, 18%, 20% of the value given.
 
 ## Exchange Bot
 Syntax: <Money amount as a decimal> <Currency From> <Currency To> #UBExchange
+Uses the Open Exchange Rate API
 
