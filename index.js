@@ -26,10 +26,10 @@ var twit = require('twit'); //Twitter require
 
 //Twitter Access
 var twitter = new twit({
-    consumer_key: 'Df9w73YbAhP3NFz1dVYDWIig9',
-    consumer_secret: 'kjU5dWLkxhwNw6AtHP2gNHuPus67mCuOaI1j8SFmZVFm0hMWox',
-    access_token: '2571622638-J4LLmwJMScRzaU8ztUakG92ZPS49i6FTqXgGQMJ',
-    access_token_secret: 'KjOyamQSfW75fygc89EGrU1JBiZYqIuhplCOxy3Zu8vQ4'
+    consumer_key: 'secretttttt',
+    consumer_secret: 'secretttttt',
+    access_token: 'secretttttt',
+    access_token_secret: 'secretttttt'
 });
 
 /****************************************************/
@@ -37,7 +37,7 @@ var twitter = new twit({
 /****************************************************/
 
 var Client = require('node-wolfram'); //Wolfram require
-var wolfram = new Client('4QQH9G-K8A2R2WAL3'); //Wolfram Access
+var wolfram = new Client('secretttt'); //Wolfram Access
 
 var wolframStr = ""; //String to be tweeted
 
@@ -87,7 +87,7 @@ var oxr = require('open-exchange-rates'), //Open Exchange Rates require
 
 //Set open exchange rate app id
 oxr.set({
-    app_id: '2cf0f9d440da44708475396524c2d6da'
+    app_id: 'secrettttt'
 });
 
 var exchangeStr = "";
